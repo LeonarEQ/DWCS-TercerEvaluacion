@@ -52,20 +52,83 @@ var datosPizza = [
 document.addEventListener("DOMContentLoaded", () => {
   let idCliente = prompt("Introduce el identificador cliente");
 
+  const datosCliente = (i) => {
+    const divCliente = document.getElementById("cliente");
+    const h1Cliente = document.createElement("h1");
+    h1Cliente.textContent =
+      datosClientes[i].first_name + " " + datosClientes[i].last_name;
+    divCliente.appendChild(h1Cliente);
+  };
 
   for (let i = 0; i < datosClientes.length; i++) {
-
     if (parseInt(idCliente) == datosClientes[i].id) {
-      const divCliente = document.getElementById("cliente");
-      const h1Cliente = document.createElement("h1");
-      h1Cliente.textContent =
-        datosClientes[i].first_name + " " + datosClientes[i].last_name;
-      divCliente.appendChild(h1Cliente);
-    } 
-   
+      datosCliente(i);
+    } else if (parseInt(idCliente) > datosClientes.length) {
+      alert("no existe el usuario con el id " + parseInt(idCliente));
+      break;
+    }
   }
 
-  function mostrarNombre(id, email, first_name, last_name) {
-    return;
+  const tablaPizzas = () => {
+    const pizzasContenedor = document.getElementById("pizzas");
+    const table = document.createElement("table");
+
+    const tr = document.createElement("tr");
+
+    table.appendChild(tr);
+
+    const nombre = document.createElement("th");
+    const precio = document.createElement("th");
+
+    nombre.textContent = "NOMBRE";
+    precio.textContent = "PRECIO";
+
+    tr.appendChild(nombre);
+    tr.appendChild(precio);
+
+    pizzasContenedor.appendChild(table);
+
+    datosPizza.forEach((element) => {
+      const tr = document.createElement("tr");
+
+      table.appendChild(tr);
+
+      const nombrePizza = document.createElement("td");
+      const precioPizza = document.createElement("td");
+
+      nombrePizza.textContent = element.nombre;
+      precioPizza.textContent = element.precio;
+
+      tr.appendChild(nombrePizza);
+      tr.appendChild(precioPizza);
+    });
+  };
+
+  tablaPizzas();
+
+  const ingredientesPizza = (num) => {
+  
+    const divIngredientes = document.getElementById("ingredientes");
+
+    for (let y = 0; y < datosPizza[num].ingredientes.length; y++) {
+      let ingredientes = document.createElement("p");
+
+      ingredientes.textContent = datosPizza[num].ingredientes[y];
+
+      console.log(datosPizza[num].ingredientes[y]);
+
+      divIngredientes.appendChild(ingredientes);
+    }
+  };
+
+  for (let z = 0; z < datosPizza.length; z++) {
+    if (parseInt(idCliente) === datosPizza[z].identificador) {
+      ingredientesPizza(z);
+      break;
+    }
+  }
+
+  if (parseInt(idCliente) > datosPizza.length) {
+    alert("no hay ingredientes para la pizza de este cliente");
   }
 });
